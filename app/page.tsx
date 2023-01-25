@@ -1,91 +1,63 @@
-import Image from 'next/image'
-import { Inter } from '@next/font/google'
-import styles from './page.module.css'
-
-const inter = Inter({ subsets: ['latin'] })
-
+//@ts-nocheck
+"use client"
+import "./globals.css";
+import { Button, Flex, ListItem, UnorderedList, Text, Input } from "@chakra-ui/react";
+import { useState } from "react";
 export default function Home() {
+  const [tasks, setTasks] = useState(["First Task",]);
+  const [Item, setItem] = useState("");
+function removeItem(taskName){
+  setTasks(
+    tasks.filter((task) => {
+      return task!= taskName;
+  })
+  );
+}
+function AddItem(taskName) {
+  if (Item != '' && !tasks.includes(Item)) {
+    setTasks([...tasks, Item]);
+    setItem('');
+  }
+}
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+    <div className="container">
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-        <div className={styles.thirteen}>
-          <Image src="/thirteen.svg" alt="13" width={40} height={31} priority />
-        </div>
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://beta.nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+   
+    <Flex
+      justifyContent="center"
+      alignItems="center"
+      width="100%"
+      height="100%"
+      flexDirection="column"
+    >
+      <UnorderedList>
+        {tasks.map((task) => {
+          return (
+            <ListItem key={task.index}>
+              {task}
+              <Button 
+              className="btnrm"
+                ml={10}
+                onClick={() => {
+                  removeItem(task); 
+                }}>
+                Remove
+              </Button>
+            </ListItem>
+          )
+        })}
+      </UnorderedList>
+      <Input
+        placeholder="Task name..."
+        value={Item}
+        onChange={(e) => {
+          setItem(e.target.value);
+        }}>
+      </Input>
+<Button className="btn" onClick={AddItem}>
+  Add Task
+</Button>
+    </Flex>
+  </div>
   )
 }

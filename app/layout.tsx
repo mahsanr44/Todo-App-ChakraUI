@@ -12,7 +12,9 @@ export default function RootLayout({
         head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
       */}
       <head />
-      <body>{children}</body>
+      <body>
+        <h1 className='header container grad'>My First Todo App</h1>
+        {children}</body>
     </html>
   )
 }
